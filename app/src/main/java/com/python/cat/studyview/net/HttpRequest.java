@@ -1,11 +1,13 @@
 package com.python.cat.studyview.net;
 
-import com.apkfuns.logutils.LogUtils;
-import com.python.cat.studyview.bean.ArticleBean;
+import android.support.annotation.NonNull;
 
+import com.python.cat.studyview.bean.ArticleBean;
+import com.python.cat.studyview.bean.BannerBean;
+import com.python.cat.studyview.bean.FriendBean;
+
+import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -13,6 +15,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 
 /**
+ * @from: https://www.jianshu.com/p/308f3c54abdd
+ * <p>
  * Created by cat on 2018/6/15.
  * 网络请求
  * <p>
@@ -26,20 +30,49 @@ public class HttpRequest {
     private HttpRequest() {
     }
 
+    /**
+     * 首页
+     *
+     * @param id page id
+     */
     public static Observable<ArticleBean> article(int id) {
 
-        Retrofit retrofit = new Retrofit.Builder()
+        Retrofit retrofit = getRetrofit();
+
+        ArticleService service = retrofit.create(ArticleService.class);
+        return service.getArticles(0)
+                .subscribeOn(Schedulers.io());
+
+    }
+
+    /**
+     * banner 内容
+     */
+    public static Observable<BannerBean> banner() {
+        return getRetrofit().create(BannerService.class)
+                .getBanners()
+                .subscribeOn(Schedulers.io());
+
+    }
+
+
+    /**
+     * 常用网站
+     */
+    public static Observable<FriendBean> friend() {
+        return getRetrofit().create(FriendsService.class)
+                .getBanners()
+                .subscribeOn(Schedulers.io());
+
+    }
+
+    @NonNull
+    private static Retrofit getRetrofit() {
+        return new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 // 针对rxjava2.x
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
-
-        ArticleBeanInterface service = retrofit.create(ArticleBeanInterface.class);
-        return service.getArticles(0)
-                .subscribeOn(Schedulers.io());
-
-
-
     }
 }
