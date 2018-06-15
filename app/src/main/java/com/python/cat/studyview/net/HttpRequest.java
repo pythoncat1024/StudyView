@@ -7,8 +7,11 @@ import com.python.cat.studyview.bean.BannerBean;
 import com.python.cat.studyview.bean.FriendBean;
 import com.python.cat.studyview.bean.LoginBean;
 
-import io.reactivex.Flowable;
+import java.io.IOException;
+
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -40,7 +43,7 @@ public class HttpRequest {
 
         Retrofit retrofit = getRetrofit();
 
-        ArticleService service = retrofit.create(ArticleService.class);
+        WanService service = retrofit.create(WanService.class);
         return service.getArticles(0)
                 .subscribeOn(Schedulers.io());
 
@@ -50,9 +53,27 @@ public class HttpRequest {
      * banner 内容
      */
     public static Observable<BannerBean> banner() {
-        return getRetrofit().create(BannerService.class)
+        return getRetrofit().create(WanService.class)
                 .getBanners()
-                .subscribeOn(Schedulers.io());
+                .subscribeOn(Schedulers.io())
+                .retryWhen(new Function<Observable<Throwable>, ObservableSource<Observable<BannerBean>>>() {
+                    @Override
+                    public ObservableSource<Observable<BannerBean>>
+                    apply(Observable<Throwable> throwableObservable) throws Exception {
+                        Throwable e = throwableObservable.blockingSingle();
+                        if (e instanceof IOException){
+                            IOException ioe = (IOException) e;
+
+                        }
+                        return throwableObservable.flatMap(new Function<Throwable, ObservableSource<Observable<BannerBean>>>() {
+                            @Override
+                            public ObservableSource<Observable<BannerBean>> apply(Throwable throwable) throws Exception {
+                                return null;
+                            }
+                        });
+                    }
+                })
+                ;
 
     }
 
@@ -61,14 +82,14 @@ public class HttpRequest {
      * 常用网站
      */
     public static Observable<FriendBean> friend() {
-        return getRetrofit().create(FriendsService.class)
-                .getBanners()
+        return getRetrofit().create(WanService.class)
+                .getFriends()
                 .subscribeOn(Schedulers.io());
 
     }
 
     public static Observable<LoginBean> login(String user, String passwd) {
-        return getRetrofit().create(LoginService.class)
+        return getRetrofit().create(WanService.class)
                 .login(user, passwd)
                 .subscribeOn(Schedulers.io());
     }
