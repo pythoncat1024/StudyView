@@ -14,6 +14,7 @@ import retrofit2.http.Path;
 
 /**
  * Created by cat on 2018/6/16.
+ * wan android api
  */
 
 public interface WanService {
