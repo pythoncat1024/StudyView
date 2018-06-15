@@ -8,6 +8,7 @@ import com.apkfuns.logutils.LogUtils;
 import com.python.cat.studyview.bean.ArticleBean;
 import com.python.cat.studyview.bean.BannerBean;
 import com.python.cat.studyview.bean.FriendBean;
+import com.python.cat.studyview.bean.LoginBean;
 import com.python.cat.studyview.net.HttpRequest;
 import com.python.cat.studyview.utils.ToastUtils;
 
@@ -29,8 +30,33 @@ public class ContentActivity extends AppCompatActivity {
         LogUtils.w("---- 去执行网络请求吧 -------");
 //        requestArticles();
 //        requestBanner();
-        requestFriend();
+//        requestFriend();
 
+        HttpRequest.login("pythoncat", "wanandroid123")
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<LoginBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        LogUtils.i(d);
+                    }
+
+                    @Override
+                    public void onNext(LoginBean loginBean) {
+                        LogUtils.w(loginBean);
+                        LogUtils.e("登录信息====");
+                        ToastUtils.show(getApplicationContext(), loginBean);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtils.e(e);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        LogUtils.w("complete....");
+                    }
+                });
     }
 
     private void requestBanner() {

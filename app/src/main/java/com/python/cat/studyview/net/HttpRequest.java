@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.python.cat.studyview.bean.ArticleBean;
 import com.python.cat.studyview.bean.BannerBean;
 import com.python.cat.studyview.bean.FriendBean;
+import com.python.cat.studyview.bean.LoginBean;
 
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
@@ -66,6 +67,12 @@ public class HttpRequest {
 
     }
 
+    public static Observable<LoginBean> login(String user, String passwd) {
+        return getRetrofit().create(LoginService.class)
+                .login(user, passwd)
+                .subscribeOn(Schedulers.io());
+    }
+
     @NonNull
     private static Retrofit getRetrofit() {
         return new Retrofit.Builder()
@@ -75,4 +82,6 @@ public class HttpRequest {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
     }
+
+
 }

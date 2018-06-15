@@ -10,7 +10,7 @@ import retrofit2.http.GET;
  * http://www.wanandroid.com/friend/json
  */
 
-public interface FriendsService {
+interface FriendsService {
 
     @GET("friend/json")
     Observable<FriendBean> getBanners();

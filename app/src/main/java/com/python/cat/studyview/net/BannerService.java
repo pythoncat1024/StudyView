@@ -14,7 +14,7 @@ import retrofit2.http.GET;
  * 参数：无
  */
 
-public interface BannerService {
+interface BannerService {
 
     @GET("banner/json")
     Observable<BannerBean> getBanners();
