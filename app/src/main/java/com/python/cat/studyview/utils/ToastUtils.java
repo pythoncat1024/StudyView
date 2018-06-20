@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.annotation.StringRes;
 import android.widget.Toast;
 
+import com.apkfuns.logutils.LogUtils;
+
 /**
  * Created by cat on 2018/6/15.
  * toast utils
@@ -20,7 +22,12 @@ public class ToastUtils {
                     sequence == null ? "null" : sequence.toString(),
                     Toast.LENGTH_SHORT);
             toast.show();
+            LogUtils.v("toast#show...");
+        } else {
+            toast.show();
+            LogUtils.v("toast#show...");
         }
+
     }
 
     public static void show(Context context, @StringRes int id) {
@@ -28,6 +35,10 @@ public class ToastUtils {
         if (toast == null) {
             toast = Toast.makeText(context, id, Toast.LENGTH_SHORT);
             toast.show();
+            LogUtils.v("toast#show...");
+        } else {
+            toast.show();
+            LogUtils.v("toast#show...");
         }
     }
 

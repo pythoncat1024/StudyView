@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.python.cat.studyview.view.CatScrollerView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.python.cat.studyview.ScrollerActivity">
+
+    <LinearLayout
+        android:id="@+id/scroll_ll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.python.cat.studyview.view.CatListView
+            android:id="@+id/scroll_lv_first"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </com.python.cat.studyview.view.CatListView>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="#5500ff00"
+            android:gravity="center"
+            android:text="@string/app_name" />
+
+        <com.python.cat.studyview.view.CatListView
+            android:id="@+id/scroll_lv_second"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        </com.python.cat.studyview.view.CatListView>
+    </LinearLayout>
+</com.python.cat.studyview.view.CatScrollerView>
