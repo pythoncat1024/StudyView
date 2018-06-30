@@ -22,7 +22,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ContentActivity" />
-        <activity android:name=".ScrollerActivity"></activity>
+        <activity android:name=".ScrollerActivity" />
+        <activity android:name=".TableActivity"></activity>
     </application>
 
 </manifest>

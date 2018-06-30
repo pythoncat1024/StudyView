@@ -37,7 +37,7 @@ public class MainActivity extends BaseActivity {
                     public void onAnimationEnd(Animator animation) {
                         LogUtils.d("animate end");
                         if (getActivity()!=null){
-                            startActivity(new Intent(getActivity(), ContentActivity.class));
+                            startActivity(new Intent(getActivity(), TableActivity.class));
                         }
                         finish();
                     }
