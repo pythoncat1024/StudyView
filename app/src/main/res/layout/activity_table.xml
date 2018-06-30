@@ -31,6 +31,7 @@
         android:layout_marginTop="20dp">
 
         <com.python.cat.studyview.view.TableView
+            android:layout_margin="5dp"
             android:id="@+id/tb_view"
             android:layout_width="match_parent"
             android:layout_height="180dp" />
