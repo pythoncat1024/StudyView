@@ -1,5 +1,6 @@
 package com.python.cat.studyview.base;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,7 @@ public class BaseActivity extends AppCompatActivity {
         LogUtils.i(getClass().getSimpleName() + "#onDestroy...");
         Memo.remove(this);
     }
+
 
     protected AppCompatActivity getActivity() {
         if (isDestroyed() || isFinishing()) {

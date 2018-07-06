@@ -3,6 +3,7 @@ package com.python.cat.studyview.base;
 import android.app.Activity;
 import android.app.Application;
 
+import com.apkfuns.logutils.LogUtils;
 import com.python.cat.studyview.utils.Memo;
 
 /**
@@ -10,6 +11,11 @@ import com.python.cat.studyview.utils.Memo;
  */
 
 public class BaseApplication extends Application {
+
+    static {
+        LogUtils.getLogConfig()
+                .configShowBorders(false);
+    }
 
     @Override
     public void onCreate() {

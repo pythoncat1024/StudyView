@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".base.BaseApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -23,7 +24,10 @@
         </activity>
         <activity android:name=".ContentActivity" />
         <activity android:name=".ScrollerActivity" />
-        <activity android:name=".TableActivity"></activity>
+        <activity android:name=".TableActivity" />
+        <activity android:name=".RoundActivity" />
+        <activity android:name=".WatermarkActivity" />
+        <activity android:name=".RectActivity"></activity>
     </application>
 
 </manifest>
