@@ -1,6 +1,5 @@
 package com.python.cat.studyview;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.apkfuns.logutils.LogUtils;
