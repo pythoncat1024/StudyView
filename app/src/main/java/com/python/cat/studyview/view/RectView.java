@@ -15,6 +15,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 import com.apkfuns.logutils.LogUtils;
+import com.python.cat.studyview.R;
 import com.python.cat.studyview.base.BaseView;
 
 import java.lang.annotation.Retention;
@@ -37,6 +38,8 @@ public class RectView extends BaseView {
     private Path path; // 顶角的区域 path
     private Path hPath; // 顶角的区域 横向 path
     private Path vPath; // 顶角的区域 纵向 path
+    private Path innerPath; // --> 配合 outer 画出外面的蒙层
+    private Path outerPath; // --> 配合 inner 画出外面的蒙层
 
     private RectF hCrop; // 给 hPath 的
     private RectF vCrop; // 给 vPath 的
@@ -62,7 +65,8 @@ public class RectView extends BaseView {
     int currentNEAR = NONE_POINT;
 
     private Paint paint;
-    private RectF oval;
+    private RectF oval; // 选中区域的 oval
+    private RectF outer; // View 的区域
 
     private float NEAR = 0;
 
@@ -94,13 +98,13 @@ public class RectView extends BaseView {
         lineWidth = lineLen / 8;
         paint = new Paint();
         paint.setAntiAlias(true);
-
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setColor(Color.BLUE);
-        paint.setStrokeCap(Paint.Cap.ROUND);
+        outer = new RectF();
         oval = new RectF();
+        outer.set(0, 0, mWidth, mHeight); // the view area
         oval.set(0, 0, mWidth, mHeight); // first ui
         path = new Path();
+        outerPath = new Path();
+        innerPath = new Path();
         hPath = new Path();
         vPath = new Path();
         hCrop = new RectF();
@@ -111,17 +115,29 @@ public class RectView extends BaseView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        paint.setStrokeWidth(1);
-        paint.setStyle(Paint.Style.STROKE);
-        canvas.drawRect(oval, paint);
-        paint.setStrokeWidth(10);
+        // draw outer area
         paint.setStyle(Paint.Style.FILL);
+        paint.setColor(getResources().getColor(R.color.white_overlay));
+        path.rewind();
+        innerPath.rewind();
+        outerPath.rewind();
+        innerPath.addRect(oval, Path.Direction.CCW);
+        outerPath.addRect(outer, Path.Direction.CCW);
+        path.op(outerPath, innerPath, Path.Op.DIFFERENCE);
+        canvas.drawPath(path, paint);
 
-        // 8 lines
-//        canvas.drawLines();
+        // draw oval
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setColor(Color.BLUE);
+        paint.setStrokeCap(Paint.Cap.ROUND);
+        paint.setStrokeWidth(1);
+        canvas.drawRect(oval, paint);
 
+
+        // draw bold line path
         if (3 == 3) {
-
+            paint.setStrokeWidth(10);
+            paint.setStyle(Paint.Style.FILL);
             // lt
             drawLeftTopPath(canvas);
             // rt
@@ -132,6 +148,9 @@ public class RectView extends BaseView {
             drawLeftBottomPath(canvas);
         }
 
+
+        // 8 lines
+//        canvas.drawLines();
         if (1 == 3) {
 
             // lt h

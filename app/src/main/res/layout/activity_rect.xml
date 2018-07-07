@@ -7,7 +7,27 @@
     android:padding="3dp"
     tools:context=".RectActivity">
 
-    <com.python.cat.studyview.view.RectView
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="5dp"
+        android:text="@string/next" />
+
+    <ImageView
+        android:scaleType="fitXY"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_above="@id/btn_next"
+        android:src="@drawable/xymly" />
+
+    <com.python.cat.studyview.view.RectView
+        android:id="@+id/rect_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/btn_next" />
+
+
 </RelativeLayout>
