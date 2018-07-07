@@ -19,6 +19,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setTitle(getClass().getSimpleName());
         LogUtils.i(getClass().getSimpleName() + "#onCreate...");
         Memo.add(this);
     }

@@ -13,6 +13,7 @@ import android.support.annotation.IntDef;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 
 import com.apkfuns.logutils.LogUtils;
 import com.python.cat.studyview.R;
@@ -254,9 +255,19 @@ public class RectView extends BaseView {
                 this.downY = event.getY();
                 currentNEAR = checkNear();
                 LogUtils.w("currentNEAR===> " + currentNEAR);
+                if (currentNEAR == NONE_POINT) {
+                    get().setFocusable(false);
+                    get().setClickable(false);
+                    get().setEnabled(false);
+                    return false; // --> 这种情况下，让下面的 view 去处理
+                }
                 break;
             case MotionEvent.ACTION_MOVE:
+                // 2==3 故意让这里不被调用的
                 if (currentNEAR == NONE_POINT) {
+                    LogUtils.e("这句话不会打印的，除非去掉 down 里面的 return false");
+                    // 这里不会进来了，因为上面已经return false 了，在这种情况下
+
                     // do move...
                     int canMove = canMove();
                     LogUtils.e("canMove? " + canMove);
@@ -411,5 +422,10 @@ public class RectView extends BaseView {
         float dx = Math.abs(x1 - x2);
         float dy = Math.abs(y1 - y2);
         return Math.pow(dx * dx + dy * dy, 0.5) <= NEAR;
+    }
+
+
+    private View get() {
+        return this;
     }
 }

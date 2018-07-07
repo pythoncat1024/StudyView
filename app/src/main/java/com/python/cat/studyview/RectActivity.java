@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.apkfuns.logutils.LogUtils;
 import com.python.cat.studyview.base.BaseActivity;
+import com.python.cat.studyview.view.BottomImage;
 
 public class RectActivity extends BaseActivity {
 
@@ -20,7 +21,7 @@ public class RectActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
                         LogUtils.w("next click...");
-                        startActivity(new Intent(getActivity(), OutActivity.class));
+                        startActivity(new Intent(getActivity(), BottomImageActivity.class));
                     }
                 });
     }
