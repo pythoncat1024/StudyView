@@ -27,7 +27,8 @@
         <activity android:name=".TableActivity" />
         <activity android:name=".RoundActivity" />
         <activity android:name=".WatermarkActivity" />
-        <activity android:name=".RectActivity"></activity>
+        <activity android:name=".RectActivity" />
+        <activity android:name=".OutActivity"></activity>
     </application>
 
 </manifest>
