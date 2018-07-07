@@ -17,10 +17,11 @@
         android:text="@string/next" />
 
     <com.python.cat.studyview.view.BottomImage
-        android:scaleType="fitXY"
+        android:id="@+id/bottom_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@id/btn_next"
+        android:scaleType="fitXY"
         android:src="@drawable/xymly" />
 
     <com.python.cat.studyview.view.RectView

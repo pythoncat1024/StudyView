@@ -256,9 +256,9 @@ public class RectView extends BaseView {
                 currentNEAR = checkNear();
                 LogUtils.w("currentNEAR===> " + currentNEAR);
                 if (currentNEAR == NONE_POINT) {
-                    get().setFocusable(false);
-                    get().setClickable(false);
-                    get().setEnabled(false);
+//                    get().setFocusable(false);
+//                    get().setClickable(false);
+//                    get().setEnabled(false);
                     return false; // --> 这种情况下，让下面的 view 去处理
                 }
                 break;
@@ -427,5 +427,9 @@ public class RectView extends BaseView {
 
     private View get() {
         return this;
+    }
+
+    public RectF getOval() {
+        return oval;
     }
 }

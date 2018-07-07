@@ -7,7 +7,7 @@
     tools:context=".BottomImageActivity">
 
     <com.python.cat.studyview.view.BottomImage
-        android:id="@+id/bt_img"
+        android:id="@+id/bottom_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"

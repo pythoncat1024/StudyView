@@ -7,13 +7,20 @@ import android.view.View;
 import com.apkfuns.logutils.LogUtils;
 import com.python.cat.studyview.base.BaseActivity;
 import com.python.cat.studyview.view.BottomImage;
+import com.python.cat.studyview.view.RectView;
 
 public class RectActivity extends BaseActivity {
+
+    private BottomImage bim;
+    private RectView rectView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rect);
+
+        bim = findViewById(R.id.bottom_img);
+        rectView = findViewById(R.id.rect_view);
         LogUtils.w("create...");
 
         findViewById(R.id.btn_next)
