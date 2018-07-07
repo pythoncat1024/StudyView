@@ -3,6 +3,7 @@ package com.python.cat.studyview.view;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
@@ -30,6 +31,7 @@ public class RectView extends BaseView {
     private float currentY;
     private float downX;
     private float downY;
+    private float lineLen;
 
     @IntDef({LEFT_BOTTOM, LEFT_TOP, RIGHT_BOTTOM, RIGHT_TOP})
     @Retention(RetentionPolicy.SOURCE)
@@ -79,11 +81,13 @@ public class RectView extends BaseView {
         super.onSizeChanged(w, h, oldw, oldh);
 
         NEAR = Math.min(mWidth, mHeight) / 10;
+        lineLen = NEAR * 0.6f;
         paint = new Paint();
         paint.setAntiAlias(true);
 
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(10);
+        paint.setColor(Color.BLUE);
+        paint.setStrokeCap(Paint.Cap.ROUND);
         oval = new RectF();
         oval.set(0, 0, mWidth, mHeight); // first ui
 
@@ -93,7 +97,30 @@ public class RectView extends BaseView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
+        paint.setStrokeWidth(1);
+        paint.setStyle(Paint.Style.STROKE);
         canvas.drawRect(oval, paint);
+        paint.setStrokeWidth(10);
+        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+
+        // 8 lines
+//        canvas.drawLines();
+        // lt h
+        canvas.drawLine(oval.left, oval.top, oval.left + lineLen, oval.top, paint);
+        // lt v
+        canvas.drawLine(oval.left, oval.top, oval.left, oval.top + lineLen, paint);
+        // rt h
+        canvas.drawLine(oval.right - lineLen, oval.top, oval.right, oval.top, paint);
+        // rt v
+        canvas.drawLine(oval.right, oval.top, oval.right, oval.top + lineLen, paint);
+        // lb h
+        canvas.drawLine(oval.left, oval.bottom, oval.left + lineLen, oval.bottom, paint);
+        // lb v
+        canvas.drawLine(oval.left, oval.bottom - lineLen, oval.left, oval.bottom, paint);
+        // rb h
+        canvas.drawLine(oval.right - lineLen, oval.bottom, oval.right, oval.bottom, paint);
+        // rb v
+        canvas.drawLine(oval.right, oval.bottom - lineLen, oval.right, oval.bottom, paint);
     }
 
 
