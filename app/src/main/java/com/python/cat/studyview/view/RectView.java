@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.os.Build;
@@ -31,7 +32,15 @@ public class RectView extends BaseView {
     private float currentY;
     private float downX;
     private float downY;
-    private float lineLen;
+    private float lineLen; // 顶角区域的内部粗线的长度
+    private float lineWidth; // 顶角区域的内部粗线的宽度
+    private Path path; // 顶角的区域 path
+    private Path hPath; // 顶角的区域 横向 path
+    private Path vPath; // 顶角的区域 纵向 path
+
+    private RectF hCrop; // 给 hPath 的
+    private RectF vCrop; // 给 vPath 的
+
 
     @IntDef({LEFT_BOTTOM, LEFT_TOP, RIGHT_BOTTOM, RIGHT_TOP})
     @Retention(RetentionPolicy.SOURCE)
@@ -82,6 +91,7 @@ public class RectView extends BaseView {
 
         NEAR = Math.min(mWidth, mHeight) / 10;
         lineLen = NEAR * 0.6f;
+        lineWidth = lineLen / 8;
         paint = new Paint();
         paint.setAntiAlias(true);
 
@@ -90,7 +100,11 @@ public class RectView extends BaseView {
         paint.setStrokeCap(Paint.Cap.ROUND);
         oval = new RectF();
         oval.set(0, 0, mWidth, mHeight); // first ui
-
+        path = new Path();
+        hPath = new Path();
+        vPath = new Path();
+        hCrop = new RectF();
+        vCrop = new RectF();
     }
 
     @Override
@@ -101,26 +115,113 @@ public class RectView extends BaseView {
         paint.setStyle(Paint.Style.STROKE);
         canvas.drawRect(oval, paint);
         paint.setStrokeWidth(10);
-        paint.setStyle(Paint.Style.FILL_AND_STROKE);
+        paint.setStyle(Paint.Style.FILL);
 
         // 8 lines
 //        canvas.drawLines();
-        // lt h
-        canvas.drawLine(oval.left, oval.top, oval.left + lineLen, oval.top, paint);
-        // lt v
-        canvas.drawLine(oval.left, oval.top, oval.left, oval.top + lineLen, paint);
-        // rt h
-        canvas.drawLine(oval.right - lineLen, oval.top, oval.right, oval.top, paint);
-        // rt v
-        canvas.drawLine(oval.right, oval.top, oval.right, oval.top + lineLen, paint);
-        // lb h
-        canvas.drawLine(oval.left, oval.bottom, oval.left + lineLen, oval.bottom, paint);
-        // lb v
-        canvas.drawLine(oval.left, oval.bottom - lineLen, oval.left, oval.bottom, paint);
-        // rb h
-        canvas.drawLine(oval.right - lineLen, oval.bottom, oval.right, oval.bottom, paint);
-        // rb v
-        canvas.drawLine(oval.right, oval.bottom - lineLen, oval.right, oval.bottom, paint);
+
+        if (3 == 3) {
+
+            // lt
+            drawLeftTopPath(canvas);
+            // rt
+            drawRightTopPath(canvas);
+            // rb
+            drawRightBottomPath(canvas);
+            // lb
+            drawLeftBottomPath(canvas);
+        }
+
+        if (1 == 3) {
+
+            // lt h
+            canvas.drawLine(oval.left, oval.top, oval.left + lineLen, oval.top, paint);
+            // lt v
+            canvas.drawLine(oval.left, oval.top, oval.left, oval.top + lineLen, paint);
+            // rt h
+            canvas.drawLine(oval.right - lineLen, oval.top, oval.right, oval.top, paint);
+            // rt v
+            canvas.drawLine(oval.right, oval.top, oval.right, oval.top + lineLen, paint);
+            // lb h
+            canvas.drawLine(oval.left, oval.bottom, oval.left + lineLen, oval.bottom, paint);
+            // lb v
+            canvas.drawLine(oval.left, oval.bottom - lineLen, oval.left, oval.bottom, paint);
+            // rb h
+            canvas.drawLine(oval.right - lineLen, oval.bottom, oval.right, oval.bottom, paint);
+            // rb v
+            canvas.drawLine(oval.right, oval.bottom - lineLen, oval.right, oval.bottom, paint);
+
+        }
+    }
+
+    /**
+     * 画出左上角的path 路径
+     *
+     * @param canvas 画布
+     */
+    private void drawLeftTopPath(Canvas canvas) {
+        hCrop.set(oval.left, oval.top, oval.left + lineLen, oval.top + lineWidth);
+        vCrop.set(oval.left, oval.top, oval.left + lineWidth, oval.top + lineLen);
+        hPath.rewind();
+        vPath.rewind();
+        path.rewind();
+        hPath.addRect(hCrop, Path.Direction.CCW);
+        vPath.addRect(vCrop, Path.Direction.CCW);
+        path.op(hPath, vPath, Path.Op.UNION);
+        canvas.drawPath(path, paint);
+    }
+
+    /**
+     * 画出右上角的path 路径
+     *
+     * @param canvas 画布
+     */
+    private void drawRightTopPath(Canvas canvas) {
+        hCrop.set(oval.right - lineLen, oval.top, oval.right, oval.top + lineWidth);
+        vCrop.set(oval.right - lineWidth, oval.top, oval.right, oval.top + lineLen);
+        hPath.rewind();
+        vPath.rewind();
+        path.rewind();
+        hPath.addRect(hCrop, Path.Direction.CCW);
+        vPath.addRect(vCrop, Path.Direction.CCW);
+        path.op(hPath, vPath, Path.Op.UNION);
+        canvas.drawPath(path, paint);
+    }
+
+
+    /**
+     * 画出右下角的path 路径
+     *
+     * @param canvas 画布
+     */
+    private void drawRightBottomPath(Canvas canvas) {
+        hCrop.set(oval.right - lineLen, oval.bottom - lineWidth, oval.right, oval.bottom);
+        vCrop.set(oval.right - lineWidth, oval.bottom - lineLen, oval.right, oval.bottom);
+        hPath.rewind();
+        vPath.rewind();
+        path.rewind();
+        hPath.addRect(hCrop, Path.Direction.CCW);
+        vPath.addRect(vCrop, Path.Direction.CCW);
+        path.op(hPath, vPath, Path.Op.UNION);
+        canvas.drawPath(path, paint);
+    }
+
+
+    /**
+     * 画出左下角的path 路径
+     *
+     * @param canvas 画布
+     */
+    private void drawLeftBottomPath(Canvas canvas) {
+        hCrop.set(oval.left, oval.bottom - lineWidth, oval.left + lineLen, oval.bottom);
+        vCrop.set(oval.left, oval.bottom - lineLen, oval.left + lineWidth, oval.bottom);
+        hPath.rewind();
+        vPath.rewind();
+        path.rewind();
+        hPath.addRect(hCrop, Path.Direction.CCW);
+        vPath.addRect(vCrop, Path.Direction.CCW);
+        path.op(hPath, vPath, Path.Op.UNION);
+        canvas.drawPath(path, paint);
     }
 
 
