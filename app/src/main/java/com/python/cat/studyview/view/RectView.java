@@ -25,6 +25,7 @@ import com.python.cat.studyview.base.BaseView;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.Arrays;
 
 public class RectView extends BaseView {
 
@@ -338,7 +339,7 @@ public class RectView extends BaseView {
                 }
                 break;
             case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
+            case MotionEvent.ACTION_CANCEL: {
                 // 如果图片不是在矩形区域内，需要移动到矩形区域内部
                 int[] xy = autoMove();
                 int dx = xy[0];
@@ -348,14 +349,77 @@ public class RectView extends BaseView {
                 bmpRight += dx;
                 bmpTop += dy;
                 bmpBottom += dy;
-                break;
+            }
+            {
+
+                // 完成这次位移之后，需要将矩形移动到 view 中间，图片也是做相应的位移
+                float[] floatXY = move2center();
+                LogUtils.w("移动中间位置：" + Arrays.toString(floatXY));
+                float fdx = floatXY[0];
+                float fdy = floatXY[1];
+                // move oval
+                oval.set(oval.left + fdx, oval.top + fdy,
+                        oval.right + fdx, oval.bottom + fdy);
+                // move bitmap
+                matrix.postTranslate(fdx, fdy);
+                bmpLeft += fdx;
+                bmpRight += fdx;
+                bmpTop += fdy;
+                bmpBottom += fdy;
+            }
+//            {
+//                // 然后是缩放，缩放图片与矩形
+//                float sXY = scale2suitable();
+//                matrix.postScale(sXY, sXY, center.x, center.y);
+//                // todo: update bmp l,t,r,b
+//
+//
+//                float w = (oval.right - oval.left) * sXY;
+//                float h = (oval.bottom - oval.top) * sXY;
+//                float left = center.x - w / 2;
+//                float right = center.x + w / 2;
+//                float top = center.y - h / 2;
+//                float bottom = center.y + h / 2;
+//                oval.set(left, top, right, bottom);
+//            }
+            break;
         }
         postInvalidate(); // update ui
         return true;
     }
 
     /**
-     * 计算 up 的时候，图片需要位移的 x,y 距离
+     * * 将图片与矩形区域全部位移到 view 的中心(先不缩放，仅仅位移)
+     *
+     * @return 需要位移的距离： dx, dy
+     */
+    private float[] move2center() {
+        float ovalCenterX = oval.left + (oval.right - oval.left) / 2;
+        float ovalCenterY = oval.top + (oval.bottom - oval.top) / 2;
+
+        LogUtils.e("oval center==(" + ovalCenterX + "," + ovalCenterY + ")"
+                + " ####CENTER(" + center.x + "," + center.y + ")");
+        return new float[]
+                {
+                        center.x - ovalCenterX, // x center
+                        center.y - ovalCenterY // y center
+                };
+
+    }
+
+    /**
+     * 计算矩形缩放到最大时需要的缩放因子
+     *
+     * @return sx, sy
+     */
+    private float scale2suitable() {
+        float h = oval.bottom - oval.top;
+        float w = oval.right - oval.left;
+        return Math.min(mHeight / h, mWidth / w);
+    }
+
+    /**
+     * 计算 up 的时候，图片需要位移的 x,y 距离【如果图片完全在矩形底部，就不会产生位移】
      *
      * @return {x,y}
      */
