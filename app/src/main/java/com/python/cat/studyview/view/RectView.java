@@ -158,8 +158,8 @@ public class RectView extends BaseView {
         outerPath.rewind();
         innerPath.addRect(oval, Path.Direction.CCW);
         outerPath.addRect(outer, Path.Direction.CCW);
-//        path.op(outerPath, innerPath, Path.Op.DIFFERENCE);
-//        canvas.drawPath(path, paint); // 这个在 touch 的时候很卡
+        path.op(outerPath, innerPath, Path.Op.DIFFERENCE);
+        canvas.drawPath(path, paint); // 这个在 touch 的时候很卡
 
         // draw oval
         paint.setStyle(Paint.Style.STROKE);
@@ -293,7 +293,7 @@ public class RectView extends BaseView {
 //                    get().setFocusable(false);
 //                    get().setClickable(false);
 //                    get().setEnabled(false);
-//                    return false; // --> 这种情况下，让下面的 view 去处理
+                    return true; // --> 这种情况下，让下面的 view 去处理
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -301,44 +301,11 @@ public class RectView extends BaseView {
                 if (currentNEAR == NONE_POINT) {
                     LogUtils.e("这句话不会打印的，除非去掉 down 里面的 return false");
                     // 这里不会进来了，因为上面已经return false 了，在这种情况下
-
                     // do move...
-                    int canMove = canMove();
-                    LogUtils.e("canMove? " + canMove);
-                    float dx = currentX - downX;
-                    float dy = currentY - downY;
-                    LogUtils.w("dx=" + dx + " , dy=" + dy);
-                    float newL = roundX(oval.left + dx);
-                    float newR = roundX(oval.right + dx);
-                    float newT = roundY(oval.top + dy);
-                    float newB = roundY(oval.bottom + dy);
-
-                    switch (canMove) {
-                        case MOVE_H:
-                            if (!distortionInMove(oval, newL, oval.top, newR, oval.bottom)) {
-                                oval.set(newL, oval.top, newR, oval.bottom);
-                            }
-                            downX = currentX;
-                            downY = currentY;
-                            break;
-                        case MOVE_V:
-                            if (!distortionInMove(oval, oval.left, newT, oval.right, newB)) {
-                                oval.set(oval.left, newT, oval.right, newB);
-                            }
-                            downX = currentX;
-                            downY = currentY;
-                            break;
-                        case MOVE_VH:
-//                            oval.inset(dx, dy);
-                            if (!distortionInMove(oval, newL, newT, newR, newB)) {
-                                oval.set(newL, newT, newR, newB);
-                            }
-                            downX = currentX;
-                            downY = currentY;
-                            break;
-                        case MOVE_ERROR:
-                            break;
-                    }
+                    // 移动图片
+                    matrix.postTranslate(currentX - downX, currentY - downY);
+                    downX = currentX;
+                    downY = currentY;
                 } else {
                     // do drag crop
                     currentX = roundX(currentX);
@@ -365,6 +332,52 @@ public class RectView extends BaseView {
                 break;
         }
         return true;
+    }
+
+    private void moveBitmap() {
+
+    }
+
+    /**
+     * 移动矩形区域，但是很卡，好奇怪
+     */
+    private void moveOval() {
+        int canMove = canMove();
+        LogUtils.e("canMove? " + canMove);
+        float dx = currentX - downX;
+        float dy = currentY - downY;
+        LogUtils.w("dx=" + dx + " , dy=" + dy);
+        float newL = roundX(oval.left + dx);
+        float newR = roundX(oval.right + dx);
+        float newT = roundY(oval.top + dy);
+        float newB = roundY(oval.bottom + dy);
+
+        switch (canMove) {
+            case MOVE_H:
+                if (!distortionInMove(oval, newL, oval.top, newR, oval.bottom)) {
+                    oval.set(newL, oval.top, newR, oval.bottom);
+                }
+                downX = currentX;
+                downY = currentY;
+                break;
+            case MOVE_V:
+                if (!distortionInMove(oval, oval.left, newT, oval.right, newB)) {
+                    oval.set(oval.left, newT, oval.right, newB);
+                }
+                downX = currentX;
+                downY = currentY;
+                break;
+            case MOVE_VH:
+//                            oval.inset(dx, dy);
+                if (!distortionInMove(oval, newL, newT, newR, newB)) {
+                    oval.set(newL, newT, newR, newB);
+                }
+                downX = currentX;
+                downY = currentY;
+                break;
+            case MOVE_ERROR:
+                break;
+        }
     }
 
     /**
@@ -432,7 +445,7 @@ public class RectView extends BaseView {
 
 
     /**
-     * when can move?
+     * oval 是否可以移动
      * if the oval is not the max,then can move
      *
      * @return
