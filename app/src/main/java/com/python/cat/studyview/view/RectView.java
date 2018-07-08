@@ -50,8 +50,9 @@ public class RectView extends BaseView {
     private RectF vCrop; // 给 vPath 的
     private Matrix matrix;
     private Bitmap bitmap;
-    private Point center;
-    private Point bmpCenter;
+    private Point center; // view 的中心点
+    private int bbw; // 图片的宽度（缩放后的）
+    private int bbh; // 图片的高度（缩放后的）
 
 
     @IntDef({LEFT_BOTTOM, LEFT_TOP, RIGHT_BOTTOM, RIGHT_TOP})
@@ -110,13 +111,13 @@ public class RectView extends BaseView {
         LogUtils.w("scale==" + scale);
         bitmap = scaleBitmap(temp, scale);
         // compute init left, top
-        int bbw = bitmap.getWidth();
-        int bbh = bitmap.getHeight();
+        bbw = bitmap.getWidth();
+        bbh = bitmap.getHeight();
         center = new Point(mWidth / 2, mHeight / 2);
-        bmpCenter = new Point(bbw / 2, bbh / 2);
+        Point bmpCenter = new Point(bbw / 2, bbh / 2); // 图片原来的中心点
 //        matrix.postScale(0.9f, 0.9f, center.x, center.y); // 中心点参数是有用的
         matrix.postTranslate(center.x - bmpCenter.x, center.y - bmpCenter.y); // 移动到当前view 的中心
-
+        // 更新 bbw, 与 bbh 保证这个两个值就是图片真实的宽高
         // init other
         NEAR = Math.min(mWidth, mHeight) / 10;
         lineLen = NEAR * 0.6f;
@@ -125,8 +126,9 @@ public class RectView extends BaseView {
         paint.setAntiAlias(true);
         outer = new RectF();
         oval = new RectF();
-        outer.set(0, 0, mWidth, mHeight); // the view area
-        oval.set(0, 0, mWidth, mHeight); // first ui
+        outer.set(center.x - bbw / 2, center.y - bbh / 2,
+                center.x + bbw / 2, center.y + bbh / 2); // the view area
+        oval.set(outer); // first ui
         path = new Path();
         outerPath = new Path();
         innerPath = new Path();
@@ -134,13 +136,20 @@ public class RectView extends BaseView {
         vPath = new Path();
         hCrop = new RectF();
         vCrop = new RectF();
+
+        LogUtils.e("DIFF w==" + (center.x - bbw / 2) + " , y==" + (center.y - bbh / 2));
+        LogUtils.e("DIFF 2 w==" + (center.x + bbw / 2) + " , y==" + (center.y + bbh / 2));
+        LogUtils.e("DIFF 3 w==" + (mWidth) + " , y==" + (mHeight));
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        canvas.drawColor(Color.RED);
         // draw bitmap
         canvas.drawBitmap(bitmap, matrix, paint);
+        paint.setStyle(Paint.Style.FILL);
+        canvas.drawCircle(center.x + bbw / 2, center.y + bbh / 2, 15, paint);
         // draw outer area
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(getResources().getColor(R.color.white_overlay));
@@ -149,8 +158,8 @@ public class RectView extends BaseView {
         outerPath.rewind();
         innerPath.addRect(oval, Path.Direction.CCW);
         outerPath.addRect(outer, Path.Direction.CCW);
-        path.op(outerPath, innerPath, Path.Op.DIFFERENCE);
-        canvas.drawPath(path, paint);
+//        path.op(outerPath, innerPath, Path.Op.DIFFERENCE);
+//        canvas.drawPath(path, paint); // 这个在 touch 的时候很卡
 
         // draw oval
         paint.setStyle(Paint.Style.STROKE);
@@ -284,7 +293,7 @@ public class RectView extends BaseView {
 //                    get().setFocusable(false);
 //                    get().setClickable(false);
 //                    get().setEnabled(false);
-                    return false; // --> 这种情况下，让下面的 view 去处理
+//                    return false; // --> 这种情况下，让下面的 view 去处理
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -299,10 +308,10 @@ public class RectView extends BaseView {
                     float dx = currentX - downX;
                     float dy = currentY - downY;
                     LogUtils.w("dx=" + dx + " , dy=" + dy);
-                    float newL = roundLength(oval.left + dx, mWidth);
-                    float newR = roundLength(oval.right + dx, mWidth);
-                    float newT = roundLength(oval.top + dy, mHeight);
-                    float newB = roundLength(oval.bottom + dy, mHeight);
+                    float newL = roundX(oval.left + dx);
+                    float newR = roundX(oval.right + dx);
+                    float newT = roundY(oval.top + dy);
+                    float newB = roundY(oval.bottom + dy);
 
                     switch (canMove) {
                         case MOVE_H:
@@ -332,8 +341,8 @@ public class RectView extends BaseView {
                     }
                 } else {
                     // do drag crop
-                    currentX = roundLength(currentX, mWidth);
-                    currentY = roundLength(currentY, mHeight);
+                    currentX = roundX(currentX);
+                    currentY = roundY(currentY);
                     switch (currentNEAR) {
                         case LEFT_TOP:
                             oval.set(currentX, currentY, oval.right, oval.bottom);
@@ -366,13 +375,36 @@ public class RectView extends BaseView {
                 || Math.abs((cB - cT) - (oval.bottom - oval.top)) > 0.001;
     }
 
-    private float roundLength(float w, float max) {
-        if (w < 0) {
-            return 0;
-        } else if (w > max) {
-            return max;
+
+    /**
+     * 不让 x 坐标超出 图片的范围
+     *
+     * @param x x
+     * @return 返回 图片 x 所在的区间值
+     */
+    private float roundX(float x) {
+        if (x < center.x - bbw / 2) {
+            return center.x - bbw / 2;
+        } else if (x > center.x + bbw / 2) {
+            return center.x + bbw / 2;
         } else {
-            return w;
+            return x;
+        }
+    }
+
+    /**
+     * 不让 y 坐标超出 图片的范围
+     *
+     * @param y y
+     * @return 返回 图片 y 所在的区间值
+     */
+    private float roundY(float y) {
+        if (y < center.y - bbh / 2) {
+            return center.y - bbh / 2;
+        } else if (y > center.y + bbh / 2) {
+            return center.y + bbh / 2;
+        } else {
+            return y;
         }
     }
 
@@ -413,14 +445,14 @@ public class RectView extends BaseView {
         if (!oval.contains(currentX, currentY)) {
             return MOVE_ERROR;
         }
-        if (oval.right - oval.left == mWidth
-                && oval.bottom - oval.top == mHeight) {
+        if (oval.right - oval.left == bbw
+                && oval.bottom - oval.top == bbh) {
             return MOVE_ERROR;
-        } else if (oval.right - oval.left == mWidth
-                && oval.bottom - oval.top != mHeight) {
+        } else if (oval.right - oval.left == bbw
+                && oval.bottom - oval.top != bbh) {
             return MOVE_V;
-        } else if (oval.right - oval.left != mWidth
-                && oval.bottom - oval.top == mHeight) {
+        } else if (oval.right - oval.left != bbw
+                && oval.bottom - oval.top == bbh) {
             return MOVE_H;
         } else {
             return MOVE_VH;
@@ -433,8 +465,8 @@ public class RectView extends BaseView {
      * @return true, false
      */
     boolean touchEdge() {
-        return oval.left < 0 || oval.right > mWidth
-                || oval.top < 0 || oval.bottom > mHeight;
+        return oval.left < center.x - bbw / 2 || oval.right > center.x + bbw / 2
+                || oval.top < center.y - bbh / 2 || oval.bottom > center.y + bbh / 2;
     }
 
     boolean near(PointF one, PointF other) {
