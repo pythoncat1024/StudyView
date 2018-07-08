@@ -1,6 +1,8 @@
 package com.python.cat.studyview;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.View;
 
@@ -19,7 +21,7 @@ public class RectActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rect);
 
-        bim = findViewById(R.id.bottom_img);
+//        bim = findViewById(R.id.bottom_img);
         rectView = findViewById(R.id.rect_view);
         LogUtils.w("create...");
 
@@ -31,5 +33,10 @@ public class RectActivity extends BaseActivity {
                         startActivity(new Intent(getActivity(), BottomImageActivity.class));
                     }
                 });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 }

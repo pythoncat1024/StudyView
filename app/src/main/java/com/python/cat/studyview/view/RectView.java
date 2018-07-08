@@ -2,10 +2,14 @@ package com.python.cat.studyview.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.os.Build;
@@ -44,6 +48,10 @@ public class RectView extends BaseView {
 
     private RectF hCrop; // 给 hPath 的
     private RectF vCrop; // 给 vPath 的
+    private Matrix matrix;
+    private Bitmap bitmap;
+    private Point center;
+    private Point bmpCenter;
 
 
     @IntDef({LEFT_BOTTOM, LEFT_TOP, RIGHT_BOTTOM, RIGHT_TOP})
@@ -93,7 +101,23 @@ public class RectView extends BaseView {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
+        // init bitmap
+        matrix = new Matrix();
+        Bitmap temp = BitmapFactory.decodeResource(getResources(), R.drawable.xymly);
+        int bw = temp.getWidth();
+        int bh = temp.getHeight();
+        float scale = Math.min(1f * mWidth / bw, 1f * mHeight / bh);
+        LogUtils.w("scale==" + scale);
+        bitmap = scaleBitmap(temp, scale);
+        // compute init left, top
+        int bbw = bitmap.getWidth();
+        int bbh = bitmap.getHeight();
+        center = new Point(mWidth / 2, mHeight / 2);
+        bmpCenter = new Point(bbw / 2, bbh / 2);
+//        matrix.postScale(0.9f, 0.9f, center.x, center.y); // 中心点参数是有用的
+        matrix.postTranslate(center.x - bmpCenter.x, center.y - bmpCenter.y); // 移动到当前view 的中心
 
+        // init other
         NEAR = Math.min(mWidth, mHeight) / 10;
         lineLen = NEAR * 0.6f;
         lineWidth = lineLen / 8;
@@ -115,7 +139,8 @@ public class RectView extends BaseView {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
+        // draw bitmap
+        canvas.drawBitmap(bitmap, matrix, paint);
         // draw outer area
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(getResources().getColor(R.color.white_overlay));
@@ -431,5 +456,27 @@ public class RectView extends BaseView {
 
     public RectF getOval() {
         return oval;
+    }
+
+    /**
+     * 根据给定的宽和高进行拉伸
+     *
+     * @param origin 原图
+     * @param scale  缩放比例
+     * @return new Bitmap
+     */
+    private Bitmap scaleBitmap(Bitmap origin, float scale) {
+        if (origin == null) {
+            return null;
+        }
+        int height = origin.getHeight();
+        int width = origin.getWidth();
+        Matrix matrix = new Matrix();
+        matrix.postScale(scale, scale);// 使用后乘
+        Bitmap newBM = Bitmap.createBitmap(origin, 0, 0, width, height, matrix, false);
+        if (!origin.isRecycled()) {
+            origin.recycle();
+        }
+        return newBM;
     }
 }
