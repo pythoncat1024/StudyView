@@ -34,10 +34,12 @@ public class RectView extends BaseView {
     public static final int RIGHT_TOP = 1 + 1;
     public static final int RIGHT_BOTTOM = 1 + 1 + 1;
     public static final int LEFT_BOTTOM = 1 + 1 + 1 + 1;
-    private float currentX;
-    private float currentY;
-    private float downX;
-    private float downY;
+    private float currentX; // 当前手指的 x
+    private float currentY; // 当前手指的 y
+    private float downX; // 当前手指按下的 x
+    private float downY; // 当前手指按下的 y (不一定，会改成 current 的值)
+
+    private float bmpLeft, bmpTop, bmpRight, bmpBottom; // 图片的定位坐标
     private float lineLen; // 顶角区域的内部粗线的长度
     private float lineWidth; // 顶角区域的内部粗线的宽度
     private Path path; // 顶角的区域 path
@@ -117,7 +119,10 @@ public class RectView extends BaseView {
         Point bmpCenter = new Point(bbw / 2, bbh / 2); // 图片原来的中心点
 //        matrix.postScale(0.9f, 0.9f, center.x, center.y); // 中心点参数是有用的
         matrix.postTranslate(center.x - bmpCenter.x, center.y - bmpCenter.y); // 移动到当前view 的中心
-        // 更新 bbw, 与 bbh 保证这个两个值就是图片真实的宽高
+        bmpLeft = center.x - bbw / 2;
+        bmpTop = center.y - bbh / 2;
+        bmpRight = center.x + bbw / 2;
+        bmpBottom = center.y + bbh / 2;
         // init other
         NEAR = Math.min(mWidth, mHeight) / 10;
         lineLen = NEAR * 0.6f;
@@ -303,7 +308,13 @@ public class RectView extends BaseView {
                     // 这里不会进来了，因为上面已经return false 了，在这种情况下
                     // do move...
                     // 移动图片
-                    matrix.postTranslate(currentX - downX, currentY - downY);
+                    float dx = currentX - downX;
+                    float dy = currentY - downY;
+                    bmpLeft += dx;
+                    bmpRight += dx;
+                    bmpTop += dy;
+                    bmpBottom += dy;
+                    matrix.postTranslate(dx, dy);
                     downX = currentX;
                     downY = currentY;
                 } else {
@@ -325,17 +336,60 @@ public class RectView extends BaseView {
                             break;
                     }
                 }
-                postInvalidate(); // update ui
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
+                // 如果图片不是在矩形区域内，需要移动到矩形区域内部
+                int[] xy = autoMove();
+                int dx = xy[0];
+                int dy = xy[1];
+                matrix.postTranslate(dx, dy);
+                bmpLeft += dx;
+                bmpRight += dx;
+                bmpTop += dy;
+                bmpBottom += dy;
                 break;
         }
+        postInvalidate(); // update ui
         return true;
     }
 
-    private void moveBitmap() {
+    /**
+     * 计算 up 的时候，图片需要位移的 x,y 距离
+     *
+     * @return {x,y}
+     */
+    private int[] autoMove() {
+        RectF oval = getOval();
+        if (oval == null) {
+            LogUtils.e("不能检测到上层 oval 的矩形区域，请检查代码逻辑！");
+            return new int[]{0, 0};
+        } else {
 
+            int dx = 0, dy = 0;
+
+            float originL = bmpLeft; // move 结束后的图片的坐标
+            float originR = bmpRight;
+            float left = originL - oval.left;
+            float right = oval.right - originR;
+            if (left > 0) {
+                dx = -Math.round(left); // 这里为什么加- ,因为是要左移
+            } else if (right > 0) {
+                dx = Math.round(right); // 右移
+            }
+
+            float originT = bmpTop;
+            float originB = bmpBottom;
+            float top = originT - oval.top;
+            float bottom = oval.bottom - originB;
+            if (top > 0) {
+                dy = -Math.round(top); // 上移
+            } else if (bottom > 0) {
+                dy = Math.round(bottom); // 下移
+            }
+
+            return new int[]{dx, dy};
+        }
     }
 
     /**
