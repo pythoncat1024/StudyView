@@ -28,8 +28,10 @@ public class MainActivity extends BaseActivity {
         ImageView img = findViewById(R.id.splash_img);
 
         img.animate()
-                .alpha(1f)
-//                .rotation(0.5f)
+                .alpha(0.1f)
+//                .scaleX(0.5f)
+//                .scaleY(0.5f)
+//                .rotation(90)
 //                .translationZ(0.5f)
                 .setDuration(1000)
                 .setListener(new AnimatorListenerAdapter() {

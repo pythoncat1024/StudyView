@@ -1,13 +1,18 @@
 package com.python.cat.studyview;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.OvershootInterpolator;
 
 import com.python.cat.studyview.base.BaseActivity;
 
 public class WatermarkActivity extends BaseActivity {
+
+    private View v;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,5 +25,20 @@ public class WatermarkActivity extends BaseActivity {
                         startActivity(new Intent(getActivity(), RectActivity.class));
                     }
                 });
+
+        v = findViewById(R.id.wm_img);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        int width = v.getWidth();
+        int height = v.getHeight();
+        ObjectAnimator oa = ObjectAnimator
+                .ofFloat(v, "translationX", 0, 500)
+                .setDuration(1000);
+        oa.setInterpolator(new DecelerateInterpolator());
+        oa.start();
+
     }
 }
