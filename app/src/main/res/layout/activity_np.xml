@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_overlay"
+    android:orientation="vertical"
+    tools:context=".NpActivity">
+
+    <!--<include layout="@layout/sample_number_picker_d"/>-->
+
+    <com.python.cat.studyview.view.NumberPickerD
+        android:background="@color/white"
+        android:id="@+id/npd_view"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
+        android:minHeight="100dp"
+        android:minWidth="100dp"
+        app:hideWheelUntilFocused="false"
+        app:internalLayout="@layout/number_picker_material"
+        app:selectionDivider="@drawable/line_shape"
+        app:selectionDividerHeight="1dp"
+        app:selectionDividersDistance="48dp"
+        app:virtualButtonPressedDrawable="@null" />
+
+</LinearLayout>

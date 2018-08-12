@@ -1,14 +1,11 @@
 package com.python.cat.studyview;
 
 import android.content.Intent;
-import android.graphics.Interpolator;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.LinearInterpolator;
 
 import com.apkfuns.logutils.LogUtils;
-import com.bumptech.glide.Glide;
 import com.python.cat.studyview.base.BaseActivity;
 
 /**
