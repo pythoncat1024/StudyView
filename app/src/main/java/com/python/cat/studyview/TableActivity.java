@@ -8,6 +8,7 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
 import com.apkfuns.logutils.LogUtils;
+import com.bumptech.glide.Glide;
 import com.python.cat.studyview.base.BaseActivity;
 
 /**
