@@ -1,6 +1,8 @@
 package com.python.cat.studyview;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.apkfuns.logutils.LogUtils;
 import com.python.cat.studyview.base.BaseActivity;
@@ -17,19 +19,27 @@ public class NpActivity extends BaseActivity {
                 "python", "java", "php", "ruby", "node", "perl", "dart"
         };
         NumberPickerD npd = findViewById(R.id.npd_view);
-        npd.setMaxValue(display.length-1);
+        npd.setMaxValue(display.length - 1);
         npd.setMinValue(0);
         final int minValue = npd.getMinValue();
         npd.setValue(display.length / 2);
         npd.setFormatter(new NumberPickerD.Formatter() {
             @Override
             public String format(int value) {
-                LogUtils.e("value=="+value);
-                return display[value-minValue];
+                LogUtils.e("value==" + value);
+                return display[value - minValue];
             }
         });
 //        npd.setSelectionDivider(new ColorDrawable(Color.YELLOW));
 
         npd.setWrapSelectorWheel(false);
+
+        findViewById(R.id.btn_next)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        startActivity(new Intent(getActivity(), TimeActivity.class));
+                    }
+                });
     }
 }

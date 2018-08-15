@@ -30,7 +30,8 @@
         <activity android:name=".RectActivity" />
         <activity android:name=".OutActivity" />
         <activity android:name=".BottomImageActivity" />
-        <activity android:name=".NpActivity"></activity>
+        <activity android:name=".NpActivity" />
+        <activity android:name=".TimeActivity"></activity>
     </application>
 
 </manifest>
