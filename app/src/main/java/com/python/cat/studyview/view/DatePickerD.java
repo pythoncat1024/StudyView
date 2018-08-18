@@ -125,6 +125,8 @@ public class DatePickerD {
         }
         npYear.setMinValue(start);
         npYear.setMaxValue(stop);
+        final String[] displayedValues = yearMap.values().toArray(new String[yearMap.size()]);
+        npYear.setDisplayedValues(displayedValues);
         npYear.setValue(selectedYear);
 //        npYear.setFormatter(new NumberPickerD.Formatter() {
 //            @Override
@@ -170,15 +172,9 @@ public class DatePickerD {
         }
         npMonth.setMinValue(start);
         npMonth.setMaxValue(stop);
+        final String[] displayedValues = monthMap.values().toArray(new String[monthMap.size()]);
+        npMonth.setDisplayedValues(displayedValues);
         npMonth.setValue(selectedMonth);
-        npMonth.setFormatter(new NumberPickerD.Formatter() {
-            @Override
-            public String format(int value) {
-                selectedMonth = value;
-                initNpDay();
-                return monthMap.get(value + 1 - start);
-            }
-        });
         npMonth.setOnValueChangedListener(new NumberPickerD.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPickerD picker, int oldVal, int newVal) {
@@ -212,18 +208,11 @@ public class DatePickerD {
         for (int i = start; i <= stop; i++) {
             dayMap.put(i, String.format(Locale.getDefault(), "%2d%s", i, "日"));
         }
-
-//        LogUtils.i(dayMap);
         npDay.setMinValue(start);
         npDay.setMaxValue(stop);
-//        final String[] displayedValues = dayMap.values().toArray(new String[dayMap.size()]);
-//        LogUtils.d(displayedValues);
-        npDay.setFormatter(new NumberPickerD.Formatter() {
-            @Override
-            public String format(int value) {
-                return dayMap.get(value + 1 - start);
-            }
-        });
+        final String[] displayedValues = dayMap.values().toArray(new String[dayMap.size()]);
+        LogUtils.d(displayedValues);
+        npDay.setDisplayedValues(displayedValues);
         npDay.setValue(selectedDay);
         npDay.setOnValueChangedListener(new NumberPickerD.OnValueChangeListener() {
             @Override
