@@ -125,17 +125,17 @@ public class DatePickerD {
         }
         npYear.setMinValue(start);
         npYear.setMaxValue(stop);
-        final String[] displayedValues = yearMap.values().toArray(new String[yearMap.size()]);
-        npYear.setDisplayedValues(displayedValues);
+//        final String[] displayedValues = yearMap.values().toArray(new String[yearMap.size()]);
+//        npYear.setDisplayedValues(displayedValues);
         npYear.setValue(selectedYear);
-//        npYear.setFormatter(new NumberPickerD.Formatter() {
-//            @Override
-//            public String format(int value) {
-//                selectedYear = value;
-//                initNpMonth();
-//                return displayedValues[value - startY];
-//            }
-//        });
+        npYear.setFormatter(new NumberPickerD.Formatter() {
+            @Override
+            public String format(int value) {
+                selectedYear = value;
+// todo: initNpMonth(); // 注意，在 onValueChange 以及 format 里面都调用 initMonth() 会导致 month 显示偏移！
+                return yearMap.get(value);
+            }
+        });
 
         npYear.setOnValueChangedListener(new NumberPickerD.OnValueChangeListener() {
             @Override

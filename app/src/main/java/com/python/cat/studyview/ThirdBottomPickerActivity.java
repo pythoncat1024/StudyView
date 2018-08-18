@@ -78,7 +78,18 @@ public class ThirdBottomPickerActivity extends BaseActivity {
         }
         nd.setDisplayedValues(display);
         FrameLayout frame = findViewById(R.id.tt_f);
-        DatePickerD dpd = new DatePickerD(this, null, null,
+        DatePickerD dpd = new DatePickerD(this, new DatePickerD.OnCancelListener() {
+            @Override
+            public void cancel(View v) {
+Toast.makeText(getApplicationContext(),"取消啊",Toast.LENGTH_SHORT).show();
+
+            }
+        }, new DatePickerD.OnConformListener() {
+            @Override
+            public void conform(View v) {
+Toast.makeText(getApplicationContext(),"确定了",Toast.LENGTH_SHORT).show();
+            }
+        },
                 begin.getTimeInMillis(), end.getTimeInMillis());
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams
                 (ViewGroup.LayoutParams.MATCH_PARENT,
