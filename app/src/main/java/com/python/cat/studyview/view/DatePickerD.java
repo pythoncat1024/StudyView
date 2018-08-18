@@ -172,9 +172,15 @@ public class DatePickerD {
         }
         npMonth.setMinValue(start);
         npMonth.setMaxValue(stop);
-        final String[] displayedValues = monthMap.values().toArray(new String[monthMap.size()]);
-        npMonth.setDisplayedValues(displayedValues);
+//        final String[] displayedValues = monthMap.values().toArray(new String[monthMap.size()]);
+//        npMonth.setDisplayedValues(displayedValues);
         npMonth.setValue(selectedMonth);
+        npMonth.setFormatter(new NumberPickerD.Formatter() {
+            @Override
+            public String format(int value) {
+                return monthMap.get(value);
+            }
+        });
         npMonth.setOnValueChangedListener(new NumberPickerD.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPickerD picker, int oldVal, int newVal) {
