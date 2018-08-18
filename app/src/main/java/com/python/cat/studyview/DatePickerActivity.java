@@ -142,7 +142,6 @@ public class DatePickerActivity extends BaseActivity {
                 return days[value];
             }
         });
-
     }
 
     private void show() {

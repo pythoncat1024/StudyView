@@ -16,14 +16,13 @@
         tools:ignore="HardcodedText" />
 
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleHorizontal"
+    <FrameLayout
+        android:id="@+id/tt_f"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="30dp"
-        android:background="#dd88ddcc"
-        android:max="100"
-        android:progress="68" />
+        android:layout_height="300dp"
+        android:background="#3f00">
+
+    </FrameLayout>
 
     <Button
         android:id="@+id/btn_next"
@@ -31,4 +30,15 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/next" />
+
+    <com.python.cat.studyview.view.NumberPickerD
+        android:id="@+id/np_test"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        app:internalLayout="@layout/number_picker_material"
+        app:selectionDivider="@drawable/line_shape"
+        app:selectionDividerHeight="1dp"
+        app:selectionDividersDistance="30dp">
+
+    </com.python.cat.studyview.view.NumberPickerD>
 </LinearLayout>

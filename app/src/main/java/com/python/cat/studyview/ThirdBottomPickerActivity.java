@@ -3,12 +3,14 @@ package com.python.cat.studyview;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
+import android.widget.NumberPicker;
 import android.widget.Toast;
 
 import com.apkfuns.logutils.LogUtils;
@@ -17,6 +19,8 @@ import com.bigkoo.pickerview.listener.OnTimeSelectChangeListener;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.python.cat.studyview.base.BaseActivity;
+import com.python.cat.studyview.view.DatePickerD;
+import com.python.cat.studyview.view.NumberPickerD;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -55,6 +59,31 @@ public class ThirdBottomPickerActivity extends BaseActivity {
                         startActivity(di);
                     }
                 });
+
+
+        final NumberPickerD nd = findViewById(R.id.np_test);
+
+        Calendar begin = Calendar.getInstance();
+        Calendar end = Calendar.getInstance();
+        begin.set(2012, 10, 12);
+        end.set(2020, 10, 12);
+        int minValue = begin.get(Calendar.YEAR);
+        nd.setMinValue(minValue);
+        int maxValue = end.get(Calendar.YEAR);
+        nd.setMaxValue(maxValue);
+        nd.setSelectionDivider(new ColorDrawable(Color.GREEN));
+        final String[] display = new String[maxValue - minValue + 1];
+        for (int index = 0; index <= maxValue - minValue; index++) {
+            display[index] = (index + minValue) + "年";
+        }
+        nd.setDisplayedValues(display);
+        FrameLayout frame = findViewById(R.id.tt_f);
+        DatePickerD dpd = new DatePickerD(this, null, null,
+                begin.getTimeInMillis(), end.getTimeInMillis());
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams
+                (ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT);
+        frame.addView(dpd.getDatePickerLayout(), params);
     }
 
     private void show() {
