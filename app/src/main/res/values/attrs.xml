@@ -9,4 +9,13 @@
         <attr name="metaButtonBarButtonStyle" format="reference" />
     </declare-styleable>
 
+    <declare-styleable name="DatePickerD">
+        <attr name="yearPaddingLeft" format="dimension" />
+        <attr name="yearPaddingRight" format="dimension" />
+        <attr name="monthPaddingLeft" format="dimension" />
+        <attr name="monthPaddingRight" format="dimension" />
+        <attr name="dayPaddingLeft" format="dimension" />
+        <attr name="dayPaddingRight" format="dimension" />
+        <attr name="internalLayout" />
+    </declare-styleable>
 </resources>

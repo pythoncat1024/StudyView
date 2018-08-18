@@ -9,4 +9,7 @@
     <string name="more_than">固定常住人口超过10万</string>
     <string name="wan">万卷山 15%</string>
     <string name="next">下一站</string>
+    <string name="show_picker">显示日期选择器</string>
+    <string name="cancel">取消</string>
+    <string name="text_finish">确定</string>
 </resources>

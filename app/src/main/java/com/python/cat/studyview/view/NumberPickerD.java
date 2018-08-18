@@ -158,10 +158,6 @@ public class NumberPickerD extends LinearLayout {
      * User choice on whether the selector wheel should be wrapped.
      */
     private boolean mWrapSelectorWheelPreferred = true;
-    private int mLeft;
-    private int mRight;
-    private int mTop;
-    private int mBottom;
 
     /**
      * The increment button.
@@ -745,10 +741,6 @@ public class NumberPickerD extends LinearLayout {
 
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-        this.mLeft = left;
-        this.mTop = top;
-        this.mRight = right;
-        this.mBottom = bottom;
         if (!mHasSelectorWheel) {
             super.onLayout(changed, left, top, right, bottom);
             return;
@@ -1501,7 +1493,9 @@ public class NumberPickerD extends LinearLayout {
             return;
         }
         final boolean showSelectorWheel = mHideWheelUntilFocused ? hasFocus() : true;
-        float x = (mRight - mLeft) / 2;
+        int right = getRight() - getPaddingRight();
+        int left = getLeft() - getPaddingLeft();
+        float x = (right - left) / 2;
         float y = mCurrentScrollOffset;
 
         // draw the virtual buttons pressed state if needed
@@ -1509,13 +1503,13 @@ public class NumberPickerD extends LinearLayout {
                 && mScrollState == OnScrollListener.SCROLL_STATE_IDLE) {
             if (mDecrementVirtualButtonPressed) {
                 mVirtualButtonPressedDrawable.setState(PRESSED_STATE_SET);
-                mVirtualButtonPressedDrawable.setBounds(0, 0, mRight, mTopSelectionDividerTop);
+                mVirtualButtonPressedDrawable.setBounds(0, 0, getRight(), mTopSelectionDividerTop);
                 mVirtualButtonPressedDrawable.draw(canvas);
             }
             if (mIncrementVirtualButtonPressed) {
                 mVirtualButtonPressedDrawable.setState(PRESSED_STATE_SET);
-                mVirtualButtonPressedDrawable.setBounds(0, mBottomSelectionDividerBottom, mRight,
-                        mBottom);
+                mVirtualButtonPressedDrawable.setBounds(0, mBottomSelectionDividerBottom, getRight(),
+                        getBottom());
                 mVirtualButtonPressedDrawable.draw(canvas);
             }
         }
@@ -1542,13 +1536,13 @@ public class NumberPickerD extends LinearLayout {
             // draw the top divider
             int topOfTopDivider = mTopSelectionDividerTop;
             int bottomOfTopDivider = topOfTopDivider + mSelectionDividerHeight;
-            mSelectionDivider.setBounds(0, topOfTopDivider, mRight, bottomOfTopDivider);
+            mSelectionDivider.setBounds(0, topOfTopDivider, getRight(), bottomOfTopDivider);
             mSelectionDivider.draw(canvas);
 
             // draw the bottom divider
             int bottomOfBottomDivider = mBottomSelectionDividerBottom;
             int topOfBottomDivider = bottomOfBottomDivider - mSelectionDividerHeight;
-            mSelectionDivider.setBounds(0, topOfBottomDivider, mRight, bottomOfBottomDivider);
+            mSelectionDivider.setBounds(0, topOfBottomDivider, getRight(), bottomOfBottomDivider);
             mSelectionDivider.draw(canvas);
         }
     }
@@ -1680,7 +1674,7 @@ public class NumberPickerD extends LinearLayout {
         initializeSelectorWheelIndices();
         int[] selectorIndices = mSelectorIndices;
         int totalTextHeight = selectorIndices.length * mTextSize;
-        float totalTextGapHeight = (mBottom - mTop) - totalTextHeight;
+        float totalTextGapHeight = (getBottom() - getTop()) - totalTextHeight;
         float textGapCount = selectorIndices.length;
         mSelectorTextGapHeight = (int) (totalTextGapHeight / textGapCount + 0.5f);
         mSelectorElementHeight = mTextSize + mSelectorTextGapHeight;
@@ -1695,7 +1689,7 @@ public class NumberPickerD extends LinearLayout {
 
     private void initializeFadingEdges() {
         setVerticalFadingEdgeEnabled(true);
-        setFadingEdgeLength((mBottom - mTop - mTextSize) / 2);
+        setFadingEdgeLength((getBottom() - getTop() - mTextSize) / 2);
     }
 
     /**
@@ -2100,11 +2094,11 @@ public class NumberPickerD extends LinearLayout {
             NumberPickerD.this.removeCallbacks(this);
             if (mIncrementVirtualButtonPressed) {
                 mIncrementVirtualButtonPressed = false;
-                invalidate(0, mBottomSelectionDividerBottom, mRight, mBottom);
+                invalidate(0, mBottomSelectionDividerBottom, getRight(), getBottom());
             }
             mDecrementVirtualButtonPressed = false;
             if (mDecrementVirtualButtonPressed) {
-                invalidate(0, 0, mRight, mTopSelectionDividerTop);
+                invalidate(0, 0, getRight(), mTopSelectionDividerTop);
             }
         }
 
@@ -2129,12 +2123,12 @@ public class NumberPickerD extends LinearLayout {
                     switch (mManagedButton) {
                         case BUTTON_INCREMENT: {
                             mIncrementVirtualButtonPressed = true;
-                            invalidate(0, mBottomSelectionDividerBottom, mRight, mBottom);
+                            invalidate(0, mBottomSelectionDividerBottom, getRight(), getBottom());
                         }
                         break;
                         case BUTTON_DECREMENT: {
                             mDecrementVirtualButtonPressed = true;
-                            invalidate(0, 0, mRight, mTopSelectionDividerTop);
+                            invalidate(0, 0, getRight(), mTopSelectionDividerTop);
                         }
                     }
                 }
@@ -2147,7 +2141,7 @@ public class NumberPickerD extends LinearLayout {
                                         ViewConfiguration.getPressedStateDuration());
                             }
                             mIncrementVirtualButtonPressed ^= true;
-                            invalidate(0, mBottomSelectionDividerBottom, mRight, mBottom);
+                            invalidate(0, mBottomSelectionDividerBottom, getRight(), getBottom());
                         }
                         break;
                         case BUTTON_DECREMENT: {
@@ -2156,7 +2150,7 @@ public class NumberPickerD extends LinearLayout {
                                         ViewConfiguration.getPressedStateDuration());
                             }
                             mDecrementVirtualButtonPressed ^= true;
-                            invalidate(0, 0, mRight, mTopSelectionDividerTop);
+                            invalidate(0, 0, getRight(), mTopSelectionDividerTop);
                         }
                     }
                 }

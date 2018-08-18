@@ -1,5 +1,6 @@
 package com.python.cat.studyview;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,8 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TimePicker;
 
 import com.apkfuns.logutils.LogUtils;
+import com.python.cat.studyview.base.BaseActivity;
 
-public class TimeActivity extends AppCompatActivity {
+public class TimeActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,12 +25,16 @@ public class TimeActivity extends AppCompatActivity {
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        LogUtils.e("---------tpv1----------");
-                        printStackViews(tpv);
-                        LogUtils.e("---------tpv2----------");
-                        printStackViews(tpv2);
+                        LogUtils.e("button next click...");
+//                        LogUtils.e("---------tpv1----------");
+//                        printStackViews(tpv);
+//                        LogUtils.e("---------tpv2----------");
+//                        printStackViews(tpv2);
+//
+//                        tpv2.setIs24HourView(!tpv2.is24HourView());
 
-                        tpv2.setIs24HourView(!tpv2.is24HourView());
+                        startActivity(new Intent(getActivity(), ThirdBottomPickerActivity.class));
+
                     }
                 });
     }
