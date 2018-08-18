@@ -210,10 +210,18 @@ public class DatePickerD {
         }
         npDay.setMinValue(start);
         npDay.setMaxValue(stop);
-        final String[] displayedValues = dayMap.values().toArray(new String[dayMap.size()]);
-        LogUtils.d(displayedValues);
-        npDay.setDisplayedValues(displayedValues);
+        LogUtils.v(dayMap);
+//        final String[] displayedValues = dayMap.values().toArray(new String[dayMap.size()]);
+//        LogUtils.d(displayedValues);
+//        npDay.setDisplayedValues(displayedValues);
         npDay.setValue(selectedDay);
+        npDay.setFormatter(new NumberPickerD.Formatter() {
+            @Override
+            public String format(int value) {
+                LogUtils.v("day format value== " + value);
+                return dayMap.get(value);
+            }
+        });
         npDay.setOnValueChangedListener(new NumberPickerD.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPickerD picker, int oldVal, int newVal) {
