@@ -81,13 +81,14 @@ public class ThirdBottomPickerActivity extends BaseActivity {
         DatePickerD dpd = new DatePickerD(this, new DatePickerD.OnCancelListener() {
             @Override
             public void cancel(View v) {
-Toast.makeText(getApplicationContext(),"取消啊",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "取消啊", Toast.LENGTH_SHORT).show();
 
             }
         }, new DatePickerD.OnConformListener() {
             @Override
-            public void conform(View v) {
-Toast.makeText(getApplicationContext(),"确定了",Toast.LENGTH_SHORT).show();
+            public void conform(View v, Calendar calendar) {
+                LogUtils.e("selected: " + getSimpleTime(calendar));
+                Toast.makeText(getApplicationContext(), "selected: " + getSimpleTime(calendar), Toast.LENGTH_SHORT).show();
             }
         },
                 begin.getTimeInMillis(), end.getTimeInMillis());
@@ -203,6 +204,14 @@ Toast.makeText(getApplicationContext(),"确定了",Toast.LENGTH_SHORT).show();
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss",
                 Locale.getDefault());
         return format.format(date);
+    }
+
+    private String getSimpleTime(Calendar date) {//可根据需要自行截取数据显示
+//        Log.d("getTime()", "choice date millis: " + date.getTime());
+        int year = date.get(Calendar.YEAR);
+        int month = date.get(Calendar.MONTH) + 1;
+        int day = date.get(Calendar.DAY_OF_MONTH);
+        return String.format(Locale.getDefault(), "%4d.%2d.%2d", year, month, day);
     }
 
 }

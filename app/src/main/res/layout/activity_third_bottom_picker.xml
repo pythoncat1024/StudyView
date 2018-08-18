@@ -15,15 +15,22 @@
         android:text="弹出选择器"
         tools:ignore="HardcodedText" />
 
+    <View
+        android:background="#3f00"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
 
     <FrameLayout
         android:id="@+id/tt_f"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:background="#3f00">
+        android:layout_height="260dp"
+        android:background="#0f00">
 
     </FrameLayout>
-
+    <View
+        android:background="#3f00"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"/>
     <Button
         android:id="@+id/btn_next"
         android:layout_width="wrap_content"

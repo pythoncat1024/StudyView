@@ -55,7 +55,7 @@ public class DatePickerD {
         this.conformListener = co;
         this.mStart = begin;
         this.mStop = end;
-        LayoutInflater inflater = (LayoutInflater) context
+        final LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (inflater == null) {
             throw new NullPointerException("inflater is null");
@@ -80,7 +80,15 @@ public class DatePickerD {
                     @Override
                     public void onClick(View v) {
                         if (conformListener != null) {
-                            conformListener.conform(v);
+                            int year = npYear.getValue();
+                            int month = npMonth.getValue();
+                            int day = npDay.getValue();
+
+                            LogUtils.e(year + "-" + month + "-" + day);
+                            Calendar instance = Calendar.getInstance();
+                            instance.set(year, month, day);
+                            LogUtils.e(instance);
+                            conformListener.conform(v, instance);
                         }
                     }
                 });
@@ -174,6 +182,8 @@ public class DatePickerD {
         npMonth.setMaxValue(stop);
 //        final String[] displayedValues = monthMap.values().toArray(new String[monthMap.size()]);
 //        npMonth.setDisplayedValues(displayedValues);
+
+        LogUtils.d(monthMap);
         npMonth.setValue(selectedMonth);
         npMonth.setFormatter(new NumberPickerD.Formatter() {
             @Override
@@ -275,6 +285,6 @@ public class DatePickerD {
     }
 
     public interface OnConformListener {
-        void conform(View v);
+        void conform(View v, Calendar selected);
     }
 }
