@@ -12,6 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -97,7 +100,6 @@ public class ThirdBottomPickerActivity extends BaseActivity {
             @Override
             public void cancel(View v) {
                 Toast.makeText(getApplicationContext(), "取消啊", Toast.LENGTH_SHORT).show();
-
             }
         }, new DatePickerD.OnConformListener() {
             @Override
@@ -119,18 +121,22 @@ public class ThirdBottomPickerActivity extends BaseActivity {
                     public void onClick(final View v) {
                         LogUtils.e("click...");
                         // todo: popupWindow
-                        final LinearLayout va = dpd.getDatePickerLayout();
-                        PopupWindow window = new PopupWindow(getActivity());
-                        window.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
-                        window.setHeight(FrameLayout.LayoutParams.WRAP_CONTENT);
-                        window.setContentView(va);
-                        // 设置PopupWindow的背景
-                        window.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-                        // 设置PopupWindow是否能响应外部点击事件
-                        window.setOutsideTouchable(true);
-//                        window.showAsDropDown(v);
-                        // 设置popupWindow的显示位置，此处是在手机屏幕底部且水平居中的位置
-                        window.showAtLocation(v, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+//                        final LinearLayout va = dpd.getDatePickerLayout();
+//                        PopupWindow window = new PopupWindow(getActivity());
+//                        window.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
+//                        window.setHeight(FrameLayout.LayoutParams.WRAP_CONTENT);
+//                        window.setContentView(va);
+//                        // 设置PopupWindow的背景
+//                        window.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+//                        // 设置PopupWindow是否能响应外部点击事件
+//                        window.setOutsideTouchable(true);
+//
+//                        // 添加动画
+//                        window.setAnimationStyle(R.style.pop_window_anim_style);
+////                        window.showAsDropDown(v);
+//                        // 设置popupWindow的显示位置，此处是在手机屏幕底部且水平居中的位置
+//                        window.showAtLocation(v, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                        dpd.showAsBottomPopupWindow(v, R.style.pop_window_anim_style);
                     }
                 });
     }

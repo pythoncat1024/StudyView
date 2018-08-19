@@ -2,9 +2,17 @@ package com.python.cat.studyview.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 
 import com.apkfuns.logutils.LogUtils;
 import com.python.cat.studyview.R;
@@ -41,6 +49,7 @@ public class DatePickerD {
     private final int stopD;
     private final int startM;
     private final int stopM;
+    private PopupWindow mPopupWindow;
 
 
     public LinearLayout getDatePickerLayout() {
@@ -70,6 +79,7 @@ public class DatePickerD {
                     @Override
                     public void onClick(View v) {
                         if (cancelListener != null) {
+                            hidePopupWindow();
                             cancelListener.cancel(v);
                         }
                     }
@@ -80,6 +90,7 @@ public class DatePickerD {
                     @Override
                     public void onClick(View v) {
                         if (conformListener != null) {
+                            hidePopupWindow();
                             int year = npYear.getValue();
                             int month = npMonth.getValue();
                             int day = npDay.getValue();
@@ -269,6 +280,36 @@ public class DatePickerD {
                 return isLeapYear(year) ? 29 : 28;
             default:
                 return 30;
+        }
+    }
+
+    public PopupWindow showAsBottomPopupWindow(View button, int animationStyle) {
+        final LinearLayout va = getDatePickerLayout();
+        if (mPopupWindow == null) {
+            mPopupWindow = new PopupWindow(va.getContext());
+        }
+        mPopupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        mPopupWindow.setHeight(FrameLayout.LayoutParams.WRAP_CONTENT);
+        mPopupWindow.setContentView(va);
+        // 设置PopupWindow的背景
+        mPopupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        // 设置PopupWindow是否能响应外部点击事件
+        mPopupWindow.setOutsideTouchable(true); // 外部点击，window 消息
+
+        // 添加动画
+        if (animationStyle > 0) {
+            mPopupWindow.setAnimationStyle(R.style.pop_window_anim_style);
+        }
+        // window.showAsDropDown(v);
+        // 设置popupWindow的显示位置，此处是在手机屏幕底部且水平居中的位置
+        mPopupWindow.showAtLocation(button, Gravity.BOTTOM
+                | Gravity.CENTER_HORIZONTAL, 0, 0);
+        return mPopupWindow;
+    }
+
+    public void hidePopupWindow() {
+        if (mPopupWindow != null) {
+            mPopupWindow.dismiss();
         }
     }
 
