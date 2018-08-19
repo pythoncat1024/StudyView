@@ -15,10 +15,20 @@
         android:text="弹出选择器"
         tools:ignore="HardcodedText" />
 
+    <Button
+        android:id="@+id/btn_pop_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:inputType="text"
+        android:text="popupWindow"
+        tools:ignore="HardcodedText,TextViewEdits" />
+
+
     <View
-        android:background="#3f00"
         android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp"
+        android:background="#3f00" />
 
     <FrameLayout
         android:id="@+id/tt_f"
@@ -27,15 +37,18 @@
         android:background="#0f00">
 
     </FrameLayout>
+
     <View
-        android:background="#3f00"
         android:layout_width="match_parent"
-        android:layout_height="1dp"/>
+        android:layout_height="1dp"
+        android:background="#3f00" />
+
     <Button
         android:id="@+id/btn_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        android:stateListAnimator="@null"
         android:text="@string/next" />
 
     <com.python.cat.studyview.view.NumberPickerD

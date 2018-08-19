@@ -2,15 +2,21 @@ package com.python.cat.studyview;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.res.XmlResourceParser;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import com.apkfuns.logutils.LogUtils;
@@ -19,9 +25,15 @@ import com.bigkoo.pickerview.listener.OnTimeSelectChangeListener;
 import com.bigkoo.pickerview.listener.OnTimeSelectListener;
 import com.bigkoo.pickerview.view.TimePickerView;
 import com.python.cat.studyview.base.BaseActivity;
+import com.python.cat.studyview.utils.SizeUtils;
 import com.python.cat.studyview.view.DatePickerD;
 import com.python.cat.studyview.view.NumberPickerD;
 
+import org.xmlpull.v1.XmlPullParserException;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -37,6 +49,8 @@ public class ThirdBottomPickerActivity extends BaseActivity {
         setContentView(R.layout.activity_third_bottom_picker);
 
         initTimePicker();
+
+
         View v = findViewById(R.id.btn_show_picker);
         v.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,7 +63,8 @@ public class ThirdBottomPickerActivity extends BaseActivity {
             }
         });
 
-        findViewById(R.id.btn_next)
+        Button btnNext = findViewById(R.id.btn_next);
+        btnNext
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -78,7 +93,7 @@ public class ThirdBottomPickerActivity extends BaseActivity {
         }
         nd.setDisplayedValues(display);
         FrameLayout frame = findViewById(R.id.tt_f);
-        DatePickerD dpd = new DatePickerD(this, new DatePickerD.OnCancelListener() {
+        final DatePickerD dpd = new DatePickerD(this, new DatePickerD.OnCancelListener() {
             @Override
             public void cancel(View v) {
                 Toast.makeText(getApplicationContext(), "取消啊", Toast.LENGTH_SHORT).show();
@@ -95,7 +110,29 @@ public class ThirdBottomPickerActivity extends BaseActivity {
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams
                 (ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT);
-        frame.addView(dpd.getDatePickerLayout(), params);
+//        frame.addView(dpd.getDatePickerLayout(), params);
+
+        // show popup window
+        findViewById(R.id.btn_pop_show)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(final View v) {
+                        LogUtils.e("click...");
+                        // todo: popupWindow
+                        final LinearLayout va = dpd.getDatePickerLayout();
+                        PopupWindow window = new PopupWindow(getActivity());
+                        window.setWidth(FrameLayout.LayoutParams.MATCH_PARENT);
+                        window.setHeight(FrameLayout.LayoutParams.WRAP_CONTENT);
+                        window.setContentView(va);
+                        // 设置PopupWindow的背景
+                        window.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+                        // 设置PopupWindow是否能响应外部点击事件
+                        window.setOutsideTouchable(true);
+//                        window.showAsDropDown(v);
+                        // 设置popupWindow的显示位置，此处是在手机屏幕底部且水平居中的位置
+                        window.showAtLocation(v, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 0);
+                    }
+                });
     }
 
     private void show() {
