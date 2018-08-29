@@ -1,0 +1,36 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/cat/AndroidStudioProjects/ApiDemos/apiDemos/build/intermediates/incremental/mergeDebugResources/merged.dir/values-land/values-land.xml",
+            "map": [
+                {
+                    "source": "/Users/cat/AndroidStudioProjects/ApiDemos/apiDemos/src/main/res/values-land/integers.xml",
+                    "from": {
+                        "startLines": "19",
+                        "startColumns": "2",
+                        "startOffsets": "837",
+                        "endColumns": "50",
+                        "endOffsets": "885"
+                    },
+                    "to": {
+                        "startLines": "6",
+                        "startColumns": "4",
+                        "startOffsets": "328",
+                        "endColumns": "52",
+                        "endOffsets": "376"
+                    }
+                },
+                {
+                    "source": "/Users/cat/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/e0079e6da7b594d12ced4c1df7334db6/res/values-land/values-land.xml",
+                    "from": {
+                        "startLines": "2,3,4,5",
+                        "startColumns": "4,4,4,4",
+                        "startOffsets": "55,125,189,260",
+                        "endColumns": "69,63,70,67",
+                        "endOffsets": "120,184,255,323"
+                    }
+                }
+            ]
+        }
+    ]
+}

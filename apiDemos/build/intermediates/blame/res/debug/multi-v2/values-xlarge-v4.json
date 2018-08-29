@@ -1,0 +1,38 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/cat/AndroidStudioProjects/ApiDemos/apiDemos/build/intermediates/incremental/mergeDebugResources/merged.dir/values-xlarge-v4/values-xlarge-v4.xml",
+            "map": [
+                {
+                    "source": "/Users/cat/AndroidStudioProjects/ApiDemos/apiDemos/src/main/res/values-xlarge/layout.xml",
+                    "from": {
+                        "startLines": "19",
+                        "startColumns": "4",
+                        "startOffsets": "817",
+                        "endLines": "20",
+                        "endColumns": "60",
+                        "endOffsets": "932"
+                    },
+                    "to": {
+                        "startLines": "8",
+                        "startColumns": "4",
+                        "startOffsets": "473",
+                        "endLines": "9",
+                        "endColumns": "60",
+                        "endOffsets": "588"
+                    }
+                },
+                {
+                    "source": "/Users/cat/.gradle/caches/transforms-1/files-1.1/appcompat-v7-27.1.1.aar/e0079e6da7b594d12ced4c1df7334db6/res/values-xlarge-v4/values-xlarge-v4.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7",
+                        "startColumns": "4,4,4,4,4,4",
+                        "startOffsets": "55,126,197,267,337,405",
+                        "endColumns": "70,70,69,69,67,67",
+                        "endOffsets": "121,192,262,332,400,468"
+                    }
+                }
+            ]
+        }
+    ]
+}

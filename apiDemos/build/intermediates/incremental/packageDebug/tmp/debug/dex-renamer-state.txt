@@ -1,0 +1,4 @@
+#Wed Aug 29 14:45:30 CST 2018
+base.0=/Users/cat/AndroidStudioProjects/ApiDemos/apiDemos/build/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex

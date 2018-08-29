@@ -1,0 +1,23 @@
+#Internal package file, do not edit.
+#Wed Aug 29 14:45:31 CST 2018
+2.base=/Users/cat/AndroidStudioProjects/ApiDemos/apiDemos/build/intermediates/assets/debug
+0.path=HelloActivity.apk
+2.baseType=DIRECTORY
+3.base=/Users/cat/AndroidStudioProjects/ApiDemos/apiDemos/build/intermediates/assets/debug
+2.set=ASSET
+1.path=fonts/samplefont.ttf
+4.base=/Users/cat/AndroidStudioProjects/ApiDemos/apiDemos/build/intermediates/transforms/dexMerger/debug/0
+count=5
+2.path=fonts/samplefont.ttx
+4.set=DEX
+3.path=read_asset.txt
+3.baseType=DIRECTORY
+1.set=ASSET
+4.path=classes.dex
+1.baseType=DIRECTORY
+0.base=/Users/cat/AndroidStudioProjects/ApiDemos/apiDemos/build/intermediates/assets/debug
+0.baseType=DIRECTORY
+3.set=ASSET
+1.base=/Users/cat/AndroidStudioProjects/ApiDemos/apiDemos/build/intermediates/assets/debug
+4.baseType=DIRECTORY
+0.set=ASSET
