@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <bool name="atLeastJellyBean">true</bool>
+    <dimen name="notification_right_side_padding_top">4dp</dimen>
+</resources>

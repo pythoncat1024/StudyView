@@ -1,0 +1,28 @@
+{
+    "logs": [
+        {
+            "outputFile": "/Users/cat/AndroidStudioProjects/StudyView/apiDemos/build/intermediates/incremental/mergeReleaseResources/merged.dir/values-xlarge-v4/values-xlarge-v4.xml",
+            "map": [
+                {
+                    "source": "/Users/cat/AndroidStudioProjects/StudyView/apiDemos/src/main/res/values-xlarge/layout.xml",
+                    "from": {
+                        "startLines": "19",
+                        "startColumns": "4",
+                        "startOffsets": "817",
+                        "endLines": "20",
+                        "endColumns": "60",
+                        "endOffsets": "932"
+                    },
+                    "to": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endLines": "3",
+                        "endColumns": "60",
+                        "endOffsets": "170"
+                    }
+                }
+            ]
+        }
+    ]
+}

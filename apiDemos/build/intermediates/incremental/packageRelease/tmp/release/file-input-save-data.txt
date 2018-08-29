@@ -1,0 +1,23 @@
+#Internal package file, do not edit.
+#Wed Aug 29 14:33:16 CST 2018
+2.base=/Users/cat/AndroidStudioProjects/StudyView/apiDemos/build/intermediates/transforms/dexMerger/release/0
+0.path=read_asset.txt
+2.baseType=DIRECTORY
+3.base=/Users/cat/AndroidStudioProjects/StudyView/apiDemos/build/intermediates/assets/release
+2.set=DEX
+1.path=fonts/samplefont.ttf
+4.base=/Users/cat/AndroidStudioProjects/StudyView/apiDemos/build/intermediates/assets/release
+count=5
+2.path=classes.dex
+4.set=ASSET
+3.path=fonts/samplefont.ttx
+3.baseType=DIRECTORY
+1.set=ASSET
+4.path=HelloActivity.apk
+1.baseType=DIRECTORY
+0.base=/Users/cat/AndroidStudioProjects/StudyView/apiDemos/build/intermediates/assets/release
+0.baseType=DIRECTORY
+3.set=ASSET
+1.base=/Users/cat/AndroidStudioProjects/StudyView/apiDemos/build/intermediates/assets/release
+4.baseType=DIRECTORY
+0.set=ASSET
