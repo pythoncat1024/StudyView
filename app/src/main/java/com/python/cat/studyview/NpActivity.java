@@ -32,7 +32,7 @@ public class NpActivity extends BaseActivity {
         });
 //        npd.setSelectionDivider(new ColorDrawable(Color.YELLOW));
 
-        npd.setWrapSelectorWheel(false);
+        npd.setWrapSelectorWheel(true); // 是否循环显示内容
 
         findViewById(R.id.btn_next)
                 .setOnClickListener(new View.OnClickListener() {
