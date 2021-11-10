@@ -20,7 +20,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.print.PrintManager;
-import android.support.v4.print.PrintHelper;
+import androidx.core.print.PrintHelper;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;

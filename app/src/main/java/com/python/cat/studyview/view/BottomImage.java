@@ -2,13 +2,15 @@ package com.python.cat.studyview.view;
 
 import android.content.Context;
 import android.graphics.RectF;
-import android.support.annotation.Nullable;
+
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.support.v7.widget.AppCompatImageView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import com.apkfuns.logutils.LogUtils;
 

@@ -24,11 +24,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Align;
-import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.os.Bundle;
-import android.support.annotation.IntDef;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.Spanned;
@@ -44,13 +41,8 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
-import android.view.accessibility.AccessibilityEvent;
-import android.view.accessibility.AccessibilityManager;
-import android.view.accessibility.AccessibilityNodeInfo;
-import android.view.accessibility.AccessibilityNodeProvider;
 import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -59,13 +51,12 @@ import android.widget.Scroller;
 import android.widget.TextView;
 
 
+import androidx.annotation.IntDef;
+
 import com.python.cat.studyview.R;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -2221,7 +2212,7 @@ public class NumberPickerD extends LinearLayout {
     /**
      * @hide
      */
-    public static class CustomEditText extends android.support.v7.widget.AppCompatEditText {
+    public static class CustomEditText extends androidx.appcompat.widget.AppCompatEditText {
 
         public CustomEditText(Context context, AttributeSet attrs) {
             super(context, attrs);

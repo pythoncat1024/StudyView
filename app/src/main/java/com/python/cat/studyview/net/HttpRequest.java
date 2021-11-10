@@ -1,6 +1,7 @@
 package com.python.cat.studyview.net;
 
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.python.cat.studyview.bean.ArticleBean;
 import com.python.cat.studyview.bean.BannerBean;

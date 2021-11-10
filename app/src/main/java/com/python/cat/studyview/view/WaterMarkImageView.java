@@ -5,12 +5,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 import android.util.AttributeSet;
 
 import com.apkfuns.logutils.LogUtils;
 
-public class WaterMarkImageView extends android.support.v7.widget.AppCompatImageView {
+public class WaterMarkImageView extends androidx.appcompat.widget.AppCompatImageView {
     private int mWidth;
     private int mHeight;
 

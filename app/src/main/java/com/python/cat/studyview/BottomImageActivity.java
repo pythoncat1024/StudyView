@@ -1,12 +1,10 @@
 package com.python.cat.studyview;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
 import com.python.cat.studyview.base.BaseActivity;
-import com.python.cat.studyview.view.BottomImage;
 
 public class BottomImageActivity extends BaseActivity {
 
