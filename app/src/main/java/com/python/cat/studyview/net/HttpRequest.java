@@ -21,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HttpRequest {
 
-    private static final String BASE_URL = "http://www.wanandroid.com/";
+    private static final String BASE_URL = "https://www.wanandroid.com/";
 
     private HttpRequest() {
     }

@@ -1,8 +1,9 @@
 package com.python.cat.studyview.utils;
 
 import android.content.Context;
-import android.support.annotation.StringRes;
 import android.widget.Toast;
+
+import androidx.annotation.StringRes;
 
 /**
  * Created by cat on 2018/6/15.
