@@ -13,9 +13,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".BannerActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:theme="@style/FullscreenTheme" >
+            android:theme="@style/FullscreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,11 +35,9 @@
         <activity android:name=".BottomImageActivity" />
         <activity android:name=".NpActivity" />
         <activity android:name=".TimeActivity" />
-        <activity android:name=".ThirdBottomPickerActivity">
-
-        </activity>
+        <activity android:name=".ThirdBottomPickerActivity"></activity>
         <activity android:name=".DatePickerActivity" />
-        <activity android:name=".PickerActivity"></activity>
+        <activity android:name=".PickerActivity" />
     </application>
 
 </manifest>
