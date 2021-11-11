@@ -8,9 +8,10 @@
     tools:context="com.python.cat.studyview.MainActivity">
 
     <ImageView
+        android:scaleType="centerCrop"
         android:id="@+id/splash_img"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:background="@drawable/xymly"
         android:contentDescription="@string/app_name"
         android:text="Hello World!"

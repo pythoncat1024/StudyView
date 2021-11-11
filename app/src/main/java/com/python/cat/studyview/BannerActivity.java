@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,8 +33,8 @@ public class BannerActivity extends BaseActivity {
         findViewById(R.id.btn_next).setOnClickListener(v ->
                 startActivity(new Intent(this, TableActivity.class)));
         final String[] display = new String[]{
-                "python", "java", "php", "ruby", "node", "perl", "dart",
-                "hello world", "hello code", "hello language"
+                "音乐推荐", "历史解密", "相声小品", "每日必听", "新闻资讯", "悬疑罪案", "英语美文",
+                "搞笑段子", "情感赫兹", "涨知识", "热门翻唱", "专注时间", "真实故事", "影视解读", "最燃电音"
         };
         List<String> stringList = Arrays.asList(display);
         RecyclerView rv = findViewById(R.id.rv);
@@ -54,6 +55,8 @@ public class BannerActivity extends BaseActivity {
                 int x = (width - cw * 3) / 2;
                 LogUtils.d("x===" + x);
                 rv.scrollBy(-x, 0);
+                TextView tv = getItemTextView((ViewGroup) viewUnder);
+                LogUtils.d("----#text = %s", tv.getText());
             }
         });
         rv.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -66,9 +69,29 @@ public class BannerActivity extends BaseActivity {
                 int lp = layoutManager.findLastVisibleItemPosition();
                 int middle = (int) (((long) lp + (long) fp) / 2L);
                 View view = layoutManager.findViewByPosition(middle);
-                LinearLayout ll = (LinearLayout) view;
-                TextView tv = ll.findViewById(R.id.mini_tv);
+                TextView tv = getItemTextView((ViewGroup) view);
                 LogUtils.d("%d, %d, %d #text = %s", fp, lp, middle, tv.getText());
+                View fv1 = layoutManager.findViewByPosition(middle - 1);
+                View fv2 = layoutManager.findViewByPosition(middle - 2);
+                View lv1 = layoutManager.findViewByPosition(middle + 1);
+                View lv2 = layoutManager.findViewByPosition(middle + 2);
+                view.setAlpha(1f);
+                getItemTextView((ViewGroup) view).setTextSize(18);
+
+                lv1.setAlpha(0.6f);
+                getItemTextView((ViewGroup) lv1).setTextSize(16);
+                fv1.setAlpha(0.6f);
+                getItemTextView((ViewGroup) fv1).setTextSize(16);
+
+                if (fv2 != null) {
+                    fv2.setAlpha(0.2f);
+                    getItemTextView((ViewGroup) fv2).setTextSize(16);
+                }
+                if (lv2 != null) {
+                    lv2.setAlpha(0.2f);
+                    getItemTextView((ViewGroup) lv2).setTextSize(16);
+                }
+                getItemTextView((ViewGroup) view).setTextColor(getResources().getColor(R.color.black, getTheme()));
                 //                mCurrentItemOffset += dx;
                 //                computeCurrentItemPos();
                 //                onScrolledChangedCallback();
@@ -77,37 +100,11 @@ public class BannerActivity extends BaseActivity {
         extracted(stringList);
     }
 
-    /**
-     * RecyclerView位移事件监听, view大小随位移事件变化
-     */
-    //    private void onScrolledChangedCallback() {
-    //        int offset = mCurrentItemOffset - mCurrentItemPos * mOnePageWidth;
-    //        float percent = (float) Math.max(Math.abs(offset) * 1.0 / mOnePageWidth, 0.0001);
-    //
-    //        View leftView = null;
-    //        View currentView;
-    //        View rightView = null;
-    //        if (mCurrentItemPos > 0) {
-    //            leftView = mRecyclerView.getLayoutManager().findViewByPosition(mCurrentItemPos - 1);
-    //        }
-    //        currentView = mRecyclerView.getLayoutManager().findViewByPosition(mCurrentItemPos);
-    //        if (mCurrentItemPos < mRecyclerView.getAdapter().getItemCount() - 1) {
-    //            rightView = mRecyclerView.getLayoutManager().findViewByPosition(mCurrentItemPos + 1);
-    //        }
-    //
-    //        if (leftView != null) {
-    //            // y = (1 - mScale)x + mScale
-    //            leftView.setScaleY((1 - mScale) * percent + mScale);
-    //        }
-    //        if (currentView != null) {
-    //            // y = (mScale - 1)x + 1
-    //            currentView.setScaleY((mScale - 1) * percent + 1);
-    //        }
-    //        if (rightView != null) {
-    //            // y = (1 - mScale)x + mScale
-    //            rightView.setScaleY((1 - mScale) * percent + mScale);
-    //        }
-    //    }//
+    private TextView getItemTextView(ViewGroup viewUnder) {
+        ViewGroup ll = viewUnder;
+        return ll.findViewById(R.id.mini_tv);
+    }
+
     private void extracted(List<String> stringList) {
         ViewPager vp = findViewById(R.id.pager);
         vp.setCurrentItem(stringList.size() / 2, false);

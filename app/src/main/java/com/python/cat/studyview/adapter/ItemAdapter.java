@@ -34,6 +34,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.Holder> {
         int index = position % mDataList.size();
         String text = mDataList.get(index);
         holder.tv.setText(text);
+        holder.tv.setTextSize(16);
+        holder.itemView.setAlpha(0.2f);
         LogUtils.d("onBindViewHolder: %s, %s", index, text);
     }
 
